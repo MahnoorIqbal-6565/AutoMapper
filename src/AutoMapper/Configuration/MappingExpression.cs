@@ -33,6 +33,10 @@ public sealed class MappingExpression(MemberList memberList, TypePair types) : M
                 ForMember(accessor, memberOptions);
             }
         });
+        }
+        public interface IMappingExpression<TSource, TDestination> 
+    {
+        IMappingExpression<TSource, TDestination> When(Func<TSource, bool> condition);
     }
     public IMappingExpression ForMember(string name, Action<IMemberConfigurationExpression> memberOptions)
     {
@@ -104,6 +108,14 @@ public class MappingExpression<TSource, TDestination> : MappingExpressionBase<TS
                 ForDestinationMember(accessor, memberOptions);
             }
         });
+    }
+    private Func<TSource, bool> _condition; 
+
+    public IMappingExpression<TSource, TDestination> When(Func<TSource, bool> condition)
+    {
+        _condition = condition;
+        TypeMapActions.Add(tm => tm.Condition = (source, context) => _condition((TSource)source));
+        return this;
     }
     public IMappingExpression<TSource, TDestination> Include<TOtherSource, TOtherDestination>() where TOtherSource : TSource where TOtherDestination : TDestination
     {

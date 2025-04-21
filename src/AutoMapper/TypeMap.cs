@@ -14,6 +14,11 @@ public sealed class TypeMap
     TypeMapDetails _details;
     List<PropertyMap> _propertyMaps;
     bool _sealed;
+    public bool ShouldMap(object source, ResolutionContext context)
+{
+    return Condition == null || Condition(source, context);
+}
+    public Func<object, ResolutionContext, bool> Condition { get; set; }
     public TypeMap(Type sourceType, Type destinationType, ProfileMap profile, TypeMapConfiguration typeMapConfiguration, List<MemberInfo> sourceMembers = null)
     {
         Types = new(sourceType, destinationType);

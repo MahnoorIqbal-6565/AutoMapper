@@ -1,1 +1,0 @@
-`RJC:\Users\Tesla Laptops\Desktop\AutoMapper\src\AutoMapper\AutoMapper.csproj¢net8.0òCSharp13

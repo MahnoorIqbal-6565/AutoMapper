@@ -89,6 +89,9 @@ public sealed class ResolutionContext : IInternalRuntimeMapper
     }
     internal bool IsDefault => this == _mapper.DefaultContext;
     Func<Type, object> IInternalRuntimeMapper.ServiceCtor => ServiceCtor();
+
+    public Type DestinationType { get; internal set; }
+
     internal static void CheckContext(ref ResolutionContext resolutionContext)
     {
         if (resolutionContext.IsDefault)
